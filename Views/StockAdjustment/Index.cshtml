@@ -1,0 +1,53 @@
+﻿@model IEnumerable<StoreManagement_Project.Models.StockAdjustment>
+
+@{
+    ViewData["Title"] = "Stock Adjustments";
+}
+
+<h1>Stock Adjustments</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Reason</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Stock?.Item?.ItemName</td>
+                <td>@item.AdjustedQuantity</td>
+                <td>@item.AdjustmentType</td>
+                <td>@item.AdjustmentReason</td>
+                <td>@item.AdjustmentDate.ToString("g")</td>
+                <td>
+                    <span class="badge @(item.ApprovalStatus == ApprovalStatus.Approved ? "bg-success" :
+                                      item.ApprovalStatus == ApprovalStatus.Rejected ? "bg-danger" : "bg-warning")">
+                        @item.ApprovalStatus
+                    </span>
+                </td>
+                <td>
+                    @if (item.ApprovalStatus == ApprovalStatus.Pending)
+                    {
+                        <form asp-action="Approve" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@item.StockAdjustmentId" />
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.StockAdjustmentId" class="btn btn-sm btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>

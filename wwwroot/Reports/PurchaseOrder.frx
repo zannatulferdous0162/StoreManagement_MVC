@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/07/2025 19:40:54" ReportInfo.Modified="05/07/2025 21:12:09" ReportInfo.CreatorVersion="2020.1.17.0">
+  <Styles Name="Blue">
+    <Style Name="Title" Font="Arial, 12pt, style=Bold"/>
+    <Style Name="Header" Fill.Color="LightSkyBlue" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Group" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Data" Font="Arial, 10pt"/>
+    <Style Name="Footer" Fill.Color="LightSkyBlue" Font="Arial, 10pt"/>
+    <Style Name="EvenRows" Fill.Color="AliceBlue" Font="Arial, 10pt"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqJUrEa/KIcQqhhcfnlqC6PC6b70ltOmTeLWh2vhAF0ivYvQZbcY/A8qTXhAWsZJeFGEPA9xrXyYOG3aFk4+m5VJhrN9GtQ82xL1jH4cgIrW3o0vCBUWAYUbLO+MgGm9P1Aed5q79gng+9/kFUqmWrVQV6UaAcPWY39ua6lgKAt+lNVFmWraah3Xt8IKdPi+3dCOUsC8+TI2/chJgFO+KfL1krXG7xHxUA3k65fIR4ufg=">
+      <TableDataSource Name="Table" Alias="PurchaseOrder" DataType="System.Int32" Enabled="true" SelectCommand="SELECT C.NameOfCurrency, I.ItemName, P.UOM, P.Price, P.Quantity, P1.PONo, P1.OrderDate, P1.DeliveryPoint, P1.ExpectedDeliveryDate, P1.POManualNumber, S.SupplierName, U.NameOfUnit, W.Name, W.Address&#13;&#10;FROM &quot;Currencies&quot; C, &quot;Items&quot; I, &quot;PurchaseOrderItems&quot; P, &quot;PurchaseOrders&quot; P1, &quot;Suppliers&quot; S, &quot;Units&quot; U, &quot;Warehouses&quot; W&#13;&#10;GROUP BY C.NameOfCurrency, I.ItemName, P.UOM, P.Price, P.Quantity, P1.PONo, P1.OrderDate, P1.DeliveryPoint, P1.ExpectedDeliveryDate, P1.POManualNumber, S.SupplierName, U.NameOfUnit, W.Name, W.Address&#13;&#10;">
+        <Column Name="Address" DataType="System.String"/>
+        <Column Name="DeliveryPoint" DataType="System.String"/>
+        <Column Name="ExpectedDeliveryDate" DataType="System.DateTime"/>
+        <Column Name="ItemName" DataType="System.String"/>
+        <Column Name="Name" DataType="System.String"/>
+        <Column Name="NameOfCurrency" DataType="System.String"/>
+        <Column Name="NameOfUnit" DataType="System.String"/>
+        <Column Name="OrderDate" DataType="System.DateTime"/>
+        <Column Name="POManualNumber" DataType="System.String"/>
+        <Column Name="PONo" DataType="System.String"/>
+        <Column Name="Price" DataType="System.Decimal"/>
+        <Column Name="Quantity" DataType="System.Decimal"/>
+        <Column Name="SupplierName" DataType="System.String"/>
+        <Column Name="UOM" DataType="System.Int32"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Total Name="Total" Expression="Total"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="75.6">
+      <TextObject Name="Text5" Left="-18.9" Top="9.45" Width="1077.3" Height="37.8" Fill.Color="LightSkyBlue" Text="Purchase Order Report" HorzAlign="Center" VertAlign="Center" Font="Arial, 20pt, style=Bold"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="79.6" Width="1047.06" Height="387.45" Style="Title">
+      <TextObject Name="Text2" Left="132.3" Top="75.6" Width="189" Height="18.9" Text="[PurchaseOrder.PONo]" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+    
+
+		<TextObject Name="TextX" Left="9.45" Top="75.6" Width="141.75" Height="18.9" Text="Purchase Order No :" Font="Arial, 10pt"/>
+
+		<TextObject Name="Text1" Left="368.55" Top="151.2" Width="113.4" Height="18.9" Text="Supplier Name :" HorzAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="463.05" Top="151.2" Width="255.15" Height="18.9" Text="[PurchaseOrder.SupplierName]" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TextObject Name="Text4" Left="746.55" Top="75.6" Width="94.5" Height="18.9" Text="Order Date :" HorzAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="841.05" Top="75.6" Width="189" Height="18.9" Text="[PurchaseOrder.OrderDate]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TextObject Name="Text7" Left="9.45" Top="113.4" Width="94.5" Height="18.9" Text="Warehouse Name :" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="103.95" Top="113.4" Width="170.1" Height="18.9" Text="[PurchaseOrder.Name]" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TextObject Name="Text9" Left="368.55" Top="113.4" Width="151.2" Height="18.9" Text="Warehouse Address :" HorzAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="481.95" Top="113.4" Width="151.2" Height="18.9" Text="[PurchaseOrder.Address]" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TextObject Name="Text11" Left="746.55" Top="113.4" Width="113.4" Height="18.9" Text="Expected Date :" HorzAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text12" Left="841.05" Top="113.4" Width="170.1" Height="18.9" Text="[PurchaseOrder.ExpectedDeliveryDate]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TextObject Name="Text13" Left="9.45" Top="151.2" Width="94.5" Height="18.9" Text="Currency :" Font="Arial, 10pt"/>
+      <TextObject Name="Text14" Left="103.95" Top="151.2" Width="179.55" Height="18.9" Text="[PurchaseOrder.NameOfCurrency]" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TextObject Name="Text15" Left="368.55" Top="75.6" Width="132.3" Height="18.9" Text="Purchase Number :" HorzAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text16" Left="481.95" Top="75.6" Width="245.7" Height="18.9" Border.Lines="All" Text="[PurchaseOrder.POManualNumber]" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+      <TableObject Name="Table1" Left="9.45" Top="264.6" Width="1030.05" Height="122.85">
+        <TableColumn Name="Column1" Width="206.01"/>
+        <TableColumn Name="Column2" Width="206.01"/>
+        <TableColumn Name="Column3" Width="206.01"/>
+        <TableColumn Name="Column4" Width="206.01"/>
+        <TableColumn Name="Column5" Width="206.01"/>
+        <TableRow Name="Row1" Height="47.25">
+          <TableCell Name="Cell1" Font="Arial, 10pt">
+            <TextObject Name="Text17" Left="37.8" Width="94.5" Height="18.9" Text="Item Name" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+          </TableCell>
+          <TableCell Name="Cell2" Font="Arial, 10pt">
+            <TextObject Name="Text18" Left="56.7" Width="94.5" Height="18.9" Text="Quantity" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+          </TableCell>
+          <TableCell Name="Cell3" Font="Arial, 10pt">
+            <TextObject Name="Text19" Left="66.15" Width="94.5" Height="18.9" Text="Price" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+          </TableCell>
+          <TableCell Name="Cell4" Font="Arial, 10pt">
+            <TextObject Name="Text20" Left="47.25" Width="94.5" Height="18.9" Text="UOM" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+          </TableCell>
+          <TableCell Name="Cell5" Font="Arial, 10pt">
+            <TextObject Name="Text21" Width="56.7" Height="18.9" Text="Total" HorzAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+          </TableCell>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="[PurchaseOrder.ItemName]" HorzAlign="Center" Font="Arial, 10pt"/>
+          <TableCell Name="Cell7" Text="[PurchaseOrder.Quantity]" HorzAlign="Center" Font="Arial, 10pt"/>
+          <TableCell Name="Cell8" Text="[PurchaseOrder.Price]" HorzAlign="Center" Font="Arial, 10pt"/>
+          <TableCell Name="Cell9" Text="[PurchaseOrder.UOM]" HorzAlign="Center" Font="Arial, 10pt"/>
+          <TableCell Name="Cell10" Text="[Total]" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Font="Arial, 10pt"/>
+          <TableCell Name="Cell12" Font="Arial, 10pt"/>
+          <TableCell Name="Cell13" Font="Arial, 10pt"/>
+          <TableCell Name="Cell14" Font="Arial, 10pt"/>
+          <TableCell Name="Cell15" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Font="Arial, 10pt"/>
+          <TableCell Name="Cell17" Font="Arial, 10pt"/>
+          <TableCell Name="Cell18" Font="Arial, 10pt"/>
+          <TableCell Name="Cell19" Font="Arial, 10pt"/>
+          <TableCell Name="Cell20" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Font="Arial, 10pt"/>
+          <TableCell Name="Cell22" Font="Arial, 10pt"/>
+          <TableCell Name="Cell23" Font="Arial, 10pt"/>
+          <TableCell Name="Cell24" Font="Arial, 10pt"/>
+          <TableCell Name="Cell25" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text22" Left="9.45" Top="217.35" Width="236.25" Height="28.35" Text="Ordered Items" HorzAlign="Center" Font="Arial, 20pt, style=Bold"/>
+      <TextObject Name="Text24" Left="9.45" Top="9.45" Width="321.3" Height="47.25" Text="Purchase Order Details" HorzAlign="Center" Font="Arial, 20pt, style=Bold"/>
+      <TextObject Name="Text26" Left="803.25" Top="18.9" Width="226.8" Height="37.8" Text="[Date]" HorzAlign="Center" Font="Arial, 12pt, style=Bold"/>
+    </PageHeaderBand>
+    <PageFooterBand Name="PageFooter1" Top="471.05" Width="1047.06" Height="47.25" Fill.Color="LightSkyBlue" Style="Footer">
+      <TextObject Name="Text23" Left="368.55" Top="9.45" Width="359.1" Height="37.8" Text="Store Managemet System" HorzAlign="Center" Font="Arial, 20pt, style=Bold"/>
+      <TextObject Name="Text25" Left="945" Top="18.9" Width="94.5" Height="18.9" Text="[Page]" HorzAlign="Center" Font="Arial, 12pt, style=Bold"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

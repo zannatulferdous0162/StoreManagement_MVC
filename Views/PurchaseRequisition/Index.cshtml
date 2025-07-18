@@ -1,0 +1,37 @@
+﻿@model IEnumerable<StoreManagement_Project.Models.PurchaseRequisition>
+
+@{
+    ViewData["Title"] = "Purchase Requisitions";
+}
+
+<h2>Purchase Requisitions</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Purchase Requisition Number</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Remarks</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var requisition in Model)
+        {
+            <tr>
+                <td>@requisition.PurchaseRequisitionNumber</td>
+                <td>@requisition.Date.ToShortDateString()</td>
+                <td>@requisition.PurchaseRequisitionItems?.Count</td>
+                <td>@requisition.Remarks</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@requisition.PurchaseRequisitionId" class="btn btn-sm btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

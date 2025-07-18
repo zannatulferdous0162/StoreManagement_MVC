@@ -1,0 +1,61 @@
+﻿@model IEnumerable<StoreManagement_Project.Models.Requisition>
+
+@{
+    ViewData["Title"] = "Requisition List";
+}
+
+<h2>Requisition List</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">+ New Requisition</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Requisition</th>
+            <th>Date</th>
+            <th>Requested By</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var req in Model)
+        {
+            <tr>
+                <td>@req.RequisitionNumber</td>
+                <td>@req.RequisitionDate.ToShortDateString()</td>
+                <td>@req.Employee?.EmployeeName</td>
+                <td>
+                    @switch (req.Status)
+                    {
+                        case "Pending":
+                            <span class="badge bg-secondary">Pending</span>
+                            ; break;
+                        case "PartiallyIssued":
+                            <span class="badge bg-warning text-dark">Partially Issued</span>
+                            ; break;
+                        case "FullyIssued":
+                            <span class="badge bg-success">Fully Issued</span>
+                            ; break;
+                        case "ForwardedToPurchase":
+                            <span class="badge bg-info">Forwarded</span>
+                            ; break;
+                        default:
+                            <span class="badge bg-light">@req.Status</span>
+                            ; break;
+                    }
+                </td>
+                <td>@req.Remarks</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@req.RequisitionId" class="btn btn-sm btn-info">Details</a>
+                    <form asp-action="IssueItems" asp-route-requisitionId="@req.RequisitionId" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-success">Issue</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

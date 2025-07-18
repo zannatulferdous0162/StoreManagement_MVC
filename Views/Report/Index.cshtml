@@ -1,0 +1,29 @@
+﻿@model IEnumerable<StoreManagement_Project.Models.PurchaseOrder>
+
+<h2>Purchase Order Reports</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>PO No</th>
+            <th>Supplier</th>
+            <th>Order Date</th>
+            <th>Delivery Point</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PONo</td>
+                <td>@item.Supplier?.SupplierName</td>
+                <td>@item.OrderDate.ToShortDateString()</td>
+                <td>@item.Warehouse?.Address</td>
+                <td>
+                    <a href="@Url.Action("ViewReport", "Report", new { id = item.PurchaseOrderId })" class="btn btn-primary">Show Report</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,131 @@
+﻿@model StoreManagement_Project.Models.PurchaseRequisition
+
+@{
+    ViewData["Title"] = "Create Requisition";
+    var items = ViewBag.Items as SelectList;
+    var units = ViewBag.Units as SelectList;
+}
+
+<h2>Create Purchase Requisition</h2>
+
+<form asp-action="Create" method="post">
+    <div class="row mb-3">
+
+           <div class="col-md-4">
+               <label asp-for="PurchaseRequisitionNumber"></label>
+               <input asp-for="PurchaseRequisitionNumber" class="form-control" readonly />
+           </div>
+           <div class="form-group">
+               <label asp-for="Date"></label>
+               <input asp-for="Date" class="form-control" />
+               <span asp-validation-for="Date" class="text-danger"></span>
+           </div>
+
+           <div class="form-group">
+               <label asp-for="Remarks"></label>
+               <textarea asp-for="Remarks" class="form-control"></textarea>
+           </div>
+    </div>
+    <hr />
+    <h4>Items</h4>
+
+    <table class="table" id="itemsTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Remarks</th>
+                <th><button type="button" class="btn btn-success btn-sm" onclick="addRow()">+</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            @* @for (int i = 0; i < Model.PurchaseRequisitionItems.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <select name="PurchaseRequisitionItems[@i].ItemId" class="form-control" asp-items="items"></select>
+                    </td>
+                    <td>
+                        <select name="PurchaseRequisitionItems[@i].UnitId" class="form-control" asp-items="units"></select>
+                    </td>
+                    <td>
+                        <input name="PurchaseRequisitionItems[@i].Quantity" type="number" class="form-control" step="0.01" required />
+                    </td>
+                    <td>
+                        <input name="PurchaseRequisitionItems[@i].Remarks" class="form-control" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            } *@
+
+            @{
+                var requisitionItems = ViewBag.RequisitionItems as List<StoreManagement_Project.Models.RequisitionItem>;
+                int i = 0;
+            }
+            @foreach (var reqItem in requisitionItems)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" name="PurchaseRequisitionItems[@i].ItemId" value="@reqItem.ItemId" />
+                        @reqItem.Item?.ItemName
+                    </td>
+                    <td>
+                        <input type="hidden" name="PurchaseRequisitionItems[@i].UnitId" value="@reqItem.UnitId" />
+                        @reqItem.Unit?.NameOfUnit
+                    </td>
+                    <td>
+                        <input name="PurchaseRequisitionItems[@i].Quantity" value="@reqItem.RemainingQuantity" type="number" class="form-control" step="0.01" />
+                    </td>
+                    <td>
+                        <input name="PurchaseRequisitionItems[@i].Remarks" class="form-control" />
+                    </td>
+                    <td>
+                        <input type="hidden" name="PurchaseRequisitionItems[@i].RequisitionItemId" value="@reqItem.RequisitionItemId" />
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+                i++;
+            }
+
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <script>
+        function addRow() {
+            var index = $('#itemsTable tbody tr').length;
+            var row = `<tr>
+                <td><select name="PurchaseRequisitionItems[${index}].ItemId" class="form-control">@Html.Raw(string.Join("", items.Select(i => $"<option value='{i.Value}'>{i.Text}</option>")))</select></td>
+                <td><select name="PurchaseRequisitionItems[${index}].UnitId" class="form-control">@Html.Raw(string.Join("", units.Select(u => $"<option value='{u.Value}'>{u.Text}</option>")))</select></td>
+                <td><input name="PurchaseRequisitionItems[${index}].Quantity" type="number" class="form-control" step="0.01" required /></td>
+                <td><input name="PurchaseRequisitionItems[${index}].Remarks" class="form-control" /></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+            </tr>`;
+            $('#itemsTable tbody').append(row);
+        }
+
+        function removeRow(button) {
+            $(button).closest('tr').remove();
+            updateRowIndexes();
+        }
+
+        function updateRowIndexes() {
+            $('#itemsTable tbody tr').each(function (i, row) {
+                $(row).find('select, input').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var updatedName = name.replace(/\[\d+\]/, `[${i}]`);
+                        $(this).attr('name', updatedName);
+                    }
+                });
+            });
+        }
+    </script>
+}

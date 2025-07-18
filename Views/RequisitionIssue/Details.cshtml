@@ -1,0 +1,35 @@
+﻿@model StoreManagement_Project.Models.RequisitionIssue
+@{
+    ViewData["Title"] = "Issue Details";
+}
+
+<h2>Issue Details: @Model.IssueNumber</h2>
+
+<p><strong>Requisition:</strong> @Model.Requisition?.RequisitionNumber</p>
+<p><strong>Issue Date:</strong> @Model.IssueDate.ToString("yyyy-MM-dd")</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Quantity Issued</th>
+            <th>Unit</th>
+            <th>Warehouse</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RequisitionIssueItems)
+        {
+            <tr>
+                <td>@item.Item?.ItemName</td>
+                <td>@item.QuantityIssued</td>
+                <td>@item.Unit?.NameOfUnit</td>
+                <td>@item.Warehouse?.Name</td>
+                <td>@item.LocationComponent?.Location</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="RequisitionIssue" asp-action="Index" class="btn btn-secondary">Back to List</a>

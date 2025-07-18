@@ -1,0 +1,67 @@
+﻿@model StoreManagement_Project.Models.Requisition
+
+@{
+    ViewData["Title"] = "Requisition Details";
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<h2>Requisition Details</h2>
+
+<div class="mb-3">
+    <strong>Requisition Number:</strong> @Model.RequisitionNumber <br />
+    <strong>Date:</strong> @Model.RequisitionDate.ToShortDateString() <br />
+    <strong>Requested By:</strong> @Model.Employee?.EmployeeName <br />
+    <strong>Status:</strong> <span class="badge bg-info">@Model.Status</span> <br />
+    <strong>Remarks:</strong> @Model.Remarks
+</div>
+
+<h4>Requisition Items</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>UOM</th>
+            <th>Requested</th>
+            <th>Issued</th>
+            <th>Remaining</th>
+            <th>Is Fully Issued?</th>
+            <th>Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RequisitionItems)
+        {
+            <tr>
+                <td>@item.Item?.ItemName</td>
+                <td>@item.Unit?.NameOfUnit</td>
+                <td>@item.QuantityRequested</td>
+                <td>@item.QuantityIssued</td>
+                <td>@item.RemainingQuantity</td>
+                <td>
+                    @if (item.IsFullyIssued)
+                    {
+                        <span class="text-success fw-bold">Yes</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">No</span>
+                    }
+                </td>
+                <td>@item.Remarks</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* <a asp-action="IssueItems" asp-route-requisitionId="@Model.RequisitionId" class="btn btn-warning">Issue Items</a> *@
+
+<form asp-action="IssueItems" method="post" style="display:inline;">
+    <input type="hidden" name="requisitionId" value="@Model.RequisitionId" />
+    <button type="submit" class="btn btn-warning">Issue Items</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>

@@ -1,0 +1,86 @@
+﻿@model StoreManagement_Project.Models.RequisitionIssue
+
+@{
+    ViewData["Title"] = "Issue Requisition Items";
+
+    // Safely cast and extract data from ViewBag
+    var requisition = ViewBag.Requisition as StoreManagement_Project.Models.Requisition;
+    var requisitionItems = requisition?.RequisitionItems?.ToList() ?? new List<StoreManagement_Project.Models.RequisitionItem>();
+    var warehouses = ViewBag.Warehouses as List<StoreManagement_Project.Models.Warehouse> ?? new List<StoreManagement_Project.Models.Warehouse>();
+    var locations = ViewBag.LocationComponents as List<StoreManagement_Project.Models.LocationComponent> ?? new List<StoreManagement_Project.Models.LocationComponent>();
+}
+
+<h2>Issue Items for Requisition #@requisition?.RequisitionNumber</h2>
+
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="RequisitionId" value="@requisition?.RequisitionId" />
+
+    <div class="form-group">
+        <label asp-for="IssueDate"></label>
+        <input asp-for="IssueDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <hr />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Requested</th>
+                <th>Issued</th>
+                <th>Remaining</th>
+                <th>Issue Now</th>
+                <th>Warehouse</th>
+                <th>Location</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < requisitionItems.Count; i++)
+            {
+                var item = requisitionItems[i];
+                var remaining = item.QuantityRequested - item.QuantityIssued;
+
+                <tr>
+                    <td>@item.Item?.ItemName</td>
+                    <td>@item.QuantityRequested</td>
+                    <td>@item.QuantityIssued</td>
+                    <td>@remaining</td>
+
+                    <td>
+                        <input type="number" name="RequisitionIssueItems[@i].QuantityIssued"
+                               class="form-control" step="0.01" max="@remaining" min="0" value="0" />
+                    </td>
+
+                    <td>
+                        <select name="RequisitionIssueItems[@i].WarehouseId" class="form-control">
+                            @foreach (var wh in warehouses)
+                            {
+                                <option value="@wh.WarehouseId">@wh.Name</option>
+                            }
+                        </select>
+                    </td>
+
+                    <td>
+                        <select name="RequisitionIssueItems[@i].LocationComponentId" class="form-control">
+                            @foreach (var loc in locations)
+                            {
+                                <option value="@loc.LocationComponentId">@loc.Location</option>
+                            }
+                        </select>
+                    </td>
+
+                    <td>@item.Unit?.NameOfUnit</td>
+
+                    <!-- Hidden Fields -->
+                    <input type="hidden" name="RequisitionIssueItems[@i].RequisitionItemId" value="@item.RequisitionItemId" />
+                    <input type="hidden" name="RequisitionIssueItems[@i].ItemId" value="@item.ItemId" />
+                    <input type="hidden" name="RequisitionIssueItems[@i].UnitId" value="@item.UnitId" />
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Issue</button>
+    <a asp-controller="Requisition" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,39 @@
+﻿@model StoreManagement_Project.Models.PurchaseRequisition
+
+@{
+    ViewData["Title"] = "Requisition Details";
+}
+
+<h2>Requisition Details</h2>
+
+<div>
+    <h4>@Model.PurchaseRequisitionNumber</h4>
+    <p><strong>Date:</strong> @Model.Date.ToShortDateString()</p>
+    <p><strong>Remarks:</strong> @Model.Remarks</p>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PurchaseRequisitionItems)
+        {
+            <tr>
+                <td>@item.Item?.ItemName</td>
+                <td>@item.Unit?.NameOfUnit</td>
+                <td>@item.Quantity</td>
+                <td>@item.Remarks</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</p>

@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Purchase Order Report";
+}
+
+<h2>Purchase Order Report</h2>
+
+<div>
+    <a href="@Url.Action("Index", "Report")" class="btn btn-secondary">Back to List</a>
+</div>
+
+<div style="margin-top: 20px;">
+    @await ViewBag.WebReport.Render()
+</div>

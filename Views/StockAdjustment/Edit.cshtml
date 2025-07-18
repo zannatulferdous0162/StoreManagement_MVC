@@ -1,0 +1,62 @@
+﻿@model StoreManagement_Project.Models.StockAdjustment
+
+@{
+    ViewData["Title"] = "Edit Stock Adjustment";
+}
+
+<h1>Edit Stock Adjustment</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="StockAdjustmentId" />
+            <input type="hidden" asp-for="AdjustmentDate" />
+            <input type="hidden" asp-for="ApprovalStatus" />
+
+            <div class="form-group mb-3">
+                <label asp-for="StockId" class="control-label"></label>
+                <select asp-for="StockId" class="form-control" asp-items="ViewBag.Stocks" disabled>
+                    <option value="">-- Select Stock --</option>
+                </select>
+                <span asp-validation-for="StockId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AdjustedQuantity" class="control-label"></label>
+                <input asp-for="AdjustedQuantity" class="form-control" />
+                <span asp-validation-for="AdjustedQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AdjustmentType" class="control-label"></label>
+                <select asp-for="AdjustmentType" class="form-control" asp-items="ViewBag.AdjustmentTypes">
+                    <option value="">-- Select Type --</option>
+                </select>
+                <span asp-validation-for="AdjustmentType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AdjustmentReason" class="control-label"></label>
+                <textarea asp-for="AdjustmentReason" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="AdjustmentReason" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Requester" class="control-label"></label>
+                <input asp-for="Requester" class="form-control" />
+                <span asp-validation-for="Requester" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

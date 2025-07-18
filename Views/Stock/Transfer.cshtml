@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Transfer Stock";
+}
+
+<h2>Transfer Stock</h2>
+
+<form asp-action="Transfer" method="post">
+    <div class="form-group">
+        <label>Item</label>
+@*         <select name="itemId" class="form-control" asp-items="ViewBag.Items"></select> *@
+        <select name="itemId" id="itemId" class="form-control" asp-items="ViewBag.Items"></select>
+    </div>
+    <div class="form-group">
+        <label>Unit</label>
+@*         <select name="unitId" class="form-control" asp-items="ViewBag.Units"></select> *@ 
+                <select name="unitId" id="unitId" class="form-control">
+            <option value="">-- Select Unit --</option>
+        </select>
+        </div>
+    <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" name="quantity" step="0.01" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>From Warehouse</label>
+        <select name="sourceWarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
+    </div>
+    <div class="form-group">
+        <label>To Warehouse</label>
+        <select name="destinationWarehouseId" id="destinationWarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Destination Location</label>
+        <select name="destinationLocationComponentId" id="destinationLocationComponentId" class="form-control">
+            <option value="">-- Select Location --</option>
+        </select>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Transfer</button> 
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</form>
+
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#destinationWarehouseId').change(function () {
+                var warehouseId = $(this).val();
+                $('#destinationLocationComponentId').html('<option value="">Loading...</option>');
+
+                if (warehouseId) {
+                    $.getJSON('/Stock/GetLocationComponentsByWarehouse', { warehouseId: warehouseId }, function (data) {
+                        var options = '<option value="">-- Select Location --</option>';
+                        $.each(data, function (i, item) {
+                            options += `<option value="${item.locationComponentId}">${item.location}</option>`;
+                        });
+                        $('#destinationLocationComponentId').html(options);
+                    });
+                } else {
+                    $('#destinationLocationComponentId').html('<option value="">-- Select Location --</option>');
+                }
+            });
+        });
+    </script>
+}
+<script>
+    $(document).ready(function () {
+
+        // Existing code for warehouse-location cascading...
+
+        // New code for item-unit cascading
+        $('#itemId').change(function () {
+            var itemId = $(this).val();
+            $('#unitId').html('<option value="">Loading...</option>');
+
+            if (itemId) {
+                $.getJSON('/Stock/GetUnitsByItem', { itemId: itemId }, function (data) {
+                    var options = '<option value="">-- Select Unit --</option>';
+                    $.each(data, function (i, unit) {
+                        options += `<option value="${unit.unitId}">${unit.name}</option>`;
+                    });
+                    $('#unitId').html(options);
+                });
+            } else {
+                $('#unitId').html('<option value="">-- Select Unit --</option>');
+            }
+        });
+    });
+</script>
+
+

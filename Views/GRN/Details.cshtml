@@ -1,0 +1,70 @@
+﻿@model StoreManagement_Project.ViewModels.GRNViewModel
+
+<div class="container mt-4">
+    <h3>GRN Details - @Model.GRNNumber</h3>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Supplier:</th>
+                <td>@Model.Supplier?.SupplierName</td>
+            </tr>
+            <tr>
+                <th>PO Number:</th>
+                <td>@Model.PurchaseOrder?.PONo</td>
+            </tr>
+            <tr>
+                <th>Invoice No:</th>
+                <td>@Model.InvoiceNo</td>
+            </tr>
+            <tr>
+                <th>Invoice Date:</th>
+                <td>@Model.InvoiceDate?.ToString("yyyy-MM-dd")</td>
+            </tr>
+            <tr>
+                <th>Received Date:</th>
+                <td>@Model.ReceivedDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+            <tr>
+                <th>Received By:</th>
+                <td>@Model.ReceivedBy</td>
+            </tr>
+            <tr>
+                <th>Warehouse:</th>
+                <td>@Model.Warehouse?.Name</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 class="mt-4">GRN Items</h4>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Location</th>
+            <th>Ordered Qty</th>
+            <th>Unit</th>
+            <th>Qty Received</th>
+            <th>Remaining</th>
+            <th>Inspection</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.GRNItems)
+        {
+            <tr>
+                <td>@item.ItemName</td>
+                <td>@item.Location</td>
+                <td>@item.Quantity</td>
+                <td>@item.NameOfUnit</td>
+                <td>@item.QuantityReceived</td>
+                <td>@(item.Quantity - item.QuantityReceived)</td>
+                <td>@(item.Inspection ? "Passed" : "Pending")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

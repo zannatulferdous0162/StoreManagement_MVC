@@ -1,0 +1,28 @@
+﻿@model StoreManagement_Project.Models.WasteManagement
+
+@{
+    ViewData["Title"] = "Waste Details";
+}
+
+<h1>Waste Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Item Name:</dt>
+        <dd class="col-sm-9">@Model.Stock?.Item?.ItemName</dd>
+
+        <dt class="col-sm-3">Wasted Quantity:</dt>
+        <dd class="col-sm-9">@Model.WastedQuantity</dd>
+
+        <dt class="col-sm-3">Reason:</dt>
+        <dd class="col-sm-9">@Model.WasteReason</dd>
+
+        <dt class="col-sm-3">Date Recorded:</dt>
+        <dd class="col-sm-9">@Model.WasteDate.ToString("dd-MMM-yyyy hh:mm tt")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.WasteManagementId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -1,0 +1,79 @@
+﻿@model StoreManagement_Project.Models.StockAdjustment
+
+@{
+    ViewData["Title"] = "Create Stock Adjustment";
+}
+
+<h1>Create Stock Adjustment</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" id="adjustmentForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Modified Stock Selection -->
+            <div class="form-group mb-3">
+                <label asp-for="StockId" class="control-label"></label>
+                <select asp-for="StockId"
+                        name="StockId"
+                        class="form-control"
+                        asp-items="ViewBag.Stocks"
+                        required>
+                    <option value="">-- Select Stock --</option>
+                </select>
+                <span asp-validation-for="StockId" class="text-danger"></span>
+            </div>
+
+            <!-- Other fields remain the same -->
+            <div class="form-group mb-3">
+                <label asp-for="AdjustedQuantity" class="control-label"></label>
+                <input asp-for="AdjustedQuantity" class="form-control" />
+                <span asp-validation-for="AdjustedQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AdjustmentType" class="control-label"></label>
+                <select asp-for="AdjustmentType" class="form-control" asp-items="ViewBag.AdjustmentTypes">
+                    <option value="">-- Select Type --</option>
+                </select>
+                <span asp-validation-for="AdjustmentType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AdjustmentReason" class="control-label"></label>
+                <textarea asp-for="AdjustmentReason" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="AdjustmentReason" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Requester" class="control-label"></label>
+                <input asp-for="Requester" class="form-control" />
+                <span asp-validation-for="Requester" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Debug script to verify selected value
+        $(document).ready(function() {
+            $('form').submit(function(e) {
+                console.log('Selected StockId:', $('#StockId').val());
+                if (!$('#StockId').val()) {
+                    alert('Please select a stock item');
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@model StoreManagement_Project.Models.StockAdjustment
+
+@{
+    ViewData["Title"] = "Adjustment Details";
+}
+
+<h1>Adjustment Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Item Name:</dt>
+        <dd class="col-sm-9">@Model.Stock?.Item?.ItemName</dd>
+
+        <dt class="col-sm-3">Adjusted Quantity:</dt>
+        <dd class="col-sm-9">@Model.AdjustedQuantity</dd>
+
+        <dt class="col-sm-3">Adjustment Type:</dt>
+        <dd class="col-sm-9">@Model.AdjustmentType</dd>
+
+        <dt class="col-sm-3">Reason:</dt>
+        <dd class="col-sm-9">@Model.AdjustmentReason</dd>
+
+        <dt class="col-sm-3">Requester:</dt>
+        <dd class="col-sm-9">@Model.Requester</dd>
+
+        <dt class="col-sm-3">Adjustment Date:</dt>
+        <dd class="col-sm-9">@Model.AdjustmentDate.ToString("g")</dd>
+
+        <dt class="col-sm-3">Status:</dt>
+        <dd class="col-sm-9">
+            <span class="badge @(Model.ApprovalStatus == ApprovalStatus.Approved ? "bg-success" :
+                              Model.ApprovalStatus == ApprovalStatus.Rejected ? "bg-danger" : "bg-warning")">
+                @Model.ApprovalStatus
+            </span>
+        </dd>
+
+        @if (Model.ApprovalStatus == ApprovalStatus.Approved)
+        {
+            <dt class="col-sm-3">Approved By:</dt>
+            <dd class="col-sm-9">@Model.ApprovedBy</dd>
+
+            <dt class="col-sm-3">Approval Date:</dt>
+            <dd class="col-sm-9">@Model.ApprovalDate?.ToString("g")</dd>
+        }
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.StockAdjustmentId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
